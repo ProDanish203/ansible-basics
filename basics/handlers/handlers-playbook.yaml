@@ -1,0 +1,17 @@
+---
+- name: Example ansible handlers playbook
+  hosts: default
+  become: true
+  roles:
+    - handlers
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
