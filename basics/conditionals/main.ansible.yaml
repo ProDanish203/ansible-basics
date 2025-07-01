@@ -1,0 +1,51 @@
+---
+- name: Conditionals in Ansible
+  hosts: all
+  become: true
+  vars:
+    app_environment: "production"
+    install_apache: true
+
+  tasks:
+    # OS-based condition using ansible_facts and logical operators
+    - name: Install Apache if the flag is set to true on Ubuntu
+      package:
+        name: apache2
+        state: present
+      when: ansible_facts['os_family'] == "Debian" and install_apache and app_environment == "production"
+
+    # Multiple conditions (Other syntax)
+    - name: Restart service on production Ubuntu servers
+      service:
+        name: apache2
+        state: restarted
+      when:
+        - app_environment == "production"
+        - ansible_facts['distribution'] == "Ubuntu"
+
+    # Task result condition - Check if user exists
+    - name: Check if app user exists
+      command: id appuser
+      register: user_check
+      ignore_errors: true
+
+    - name: Create app user if not present
+      user:
+        name: appuser
+        state: present
+        shell: /bin/bash
+      when: user_check.failed
+
+    # Variable existence check
+    - name: Use custom config if defined
+      template:
+        src: custom.conf.j2
+        dest: /etc/app/config.conf
+      when: custom_config is defined
+
+      # Logical operators
+    - name: Install development tools on dev or test environments
+      package:
+        name: git
+        state: present
+      when: app_environment == "development" or app_environment == "testing"
