@@ -1,0 +1,74 @@
+---
+- name: Ansible Variables Example
+  hosts: all
+  remote_user: ubuntu
+
+  vars:
+    # String variable
+    my_string: "Hello, Ansible!"
+
+    # Integer variable
+    my_integer: 42
+
+    # Boolean variable
+    my_boolean: true
+
+    # List variable
+    my_list:
+      - item1
+      - item2
+      - item3
+
+    # Dictionary variable
+    my_dict:
+      key1: value1
+      key2: value2
+      key3: value3
+
+  vars_files:
+    - vars.ansible.yaml
+
+  tasks:
+    - name: Print string variable
+      debug:
+        msg: "String variable: {{ my_string }}"
+
+    - name: Print integer variable
+      debug:
+        msg: "Integer variable: {{ my_integer }}"
+
+    - name: Print boolean variable
+      debug:
+        msg: "Boolean variable: {{ my_boolean }}"
+
+    - name: Print list variable
+      debug:
+        msg: "List variable: {{ my_list }}"
+
+    - name: Print dictionary variable
+      debug:
+        msg: "Dictionary variable: {{ my_dict }}"
+
+    - name: Print a key from the dictionary
+      debug:
+        msg: "Value of key1 in dictionary: {{ my_dict.key1 }}"
+      register: dict_key_value
+
+    - name: Print the registered variable
+      debug:
+        msg: "Registered variable value: {{ dict_key_value.msg }}"
+
+    - name: Using Jinja2 template to format a message
+      debug:
+        msg: my_dict.keys() is {{ my_dict.keys() | list | map("upper") | list }} and my_dict.values() is {{ my_dict.values() | list }}
+
+    - name: Print variable from vars file
+      debug:
+        msg: "Variable from vars file: {{ my_var_from_file }}"
+
+    - name: Print variable from inventory
+      debug:
+        msg: "Variable from inventory: {{ ansible_host }}" # This variable is automatically provided by Ansible
+
+# Note: Ensure that the vars.yaml file exists in the same directory as this playbook
+# and contains the variable my_var_from_file.
