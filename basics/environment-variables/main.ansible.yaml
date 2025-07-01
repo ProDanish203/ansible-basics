@@ -1,0 +1,29 @@
+---
+- name: Environment Variables Example
+  hosts: all
+  become: true
+
+  environment:
+    MY_ENV_VAR: "Hello, World!"
+    ANOTHER_VAR: "Ansible is cool!"
+
+  tasks:
+    - name: Print environment variables
+      command: |
+        echo "MY_ENV_VAR is $MY_ENV_VAR"
+        echo "ANOTHER_VAR is $ANOTHER_VAR"
+      register: env_output
+
+    - name: Show output
+      debug:
+        var: env_output.stdout_lines
+
+    - name: Environment variable for a single task
+      environment:
+        TASK_VAR: "This is a task-specific variable"
+      command: echo "TASK_VAR is $TASK_VAR"
+      register: task_env_output
+
+    - name: Show task-specific environment variable output
+      debug:
+        var: task_env_output.stdout_lines
