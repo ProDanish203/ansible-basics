@@ -1,0 +1,6 @@
+---
+- name: Jinja2 Templating Example
+  hosts: all
+  become: true
+  roles:
+    - install-nginx
