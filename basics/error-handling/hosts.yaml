@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    default:
+      hosts:
+        server1:
+          ansible_host: 13.233.194.50
+          ansible_ssh_private_key_file: ~/.ssh/main.pem
+          ansible_user: ubuntu

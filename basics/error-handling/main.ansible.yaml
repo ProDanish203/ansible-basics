@@ -1,0 +1,40 @@
+---
+- name: Error Handling Examples
+  hosts: all
+  tasks:
+    # 1. Ignore errors - continue even if fails
+    - name: Try to stop a service that might not exist
+      service:
+        name: nonexistent-service
+        state: stopped
+      ignore_errors: true
+
+    # 2. Custom failure condition
+    - name: Check disk space
+      shell: df -h / | awk 'NR==2 {print $5}' | cut -d'%' -f1
+      register: disk_usage
+      failed_when: disk_usage.stdout|int > 90
+
+    # 3. Retry until success
+    - name: Wait for service to start
+      uri:
+        url: "http://localhost:8080/health"
+      register: health_check
+      until: health_check.status == 200
+      retries: 5
+      delay: 10
+
+    # 4. Block with rescue (try-catch)
+    - block:
+        - name: Try to install package
+          package:
+            name: some-package
+            state: present
+      rescue:
+        - name: Install from alternative source
+          shell: curl -O http://example.com/package.deb && dpkg -i package.deb
+      always:
+        - name: Clean up temp files
+          file:
+            path: /tmp/package.deb
+            state: absent
