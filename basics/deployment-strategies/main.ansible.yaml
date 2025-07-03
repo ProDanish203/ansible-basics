@@ -1,0 +1,6 @@
+---
+- name: Deployment Strategies Playbook
+  become: true
+  hosts: all
+  roles:
+    - install-python

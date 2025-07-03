@@ -1,0 +1,15 @@
+---
+all:
+  children:
+    blue:
+      hosts:
+        server1:
+          ansible_host: 13.233.194.50
+          ansible_ssh_private_key_file: ~/.ssh/main.pem
+          ansible_user: ubuntu
+    green:
+      hosts:
+        server2:
+          ansible_host: 65.2.79.36
+          ansible_ssh_private_key_file: ~/.ssh/main.pem
+          ansible_user: ubuntu
