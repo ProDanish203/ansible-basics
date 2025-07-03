@@ -1,0 +1,6 @@
+---
+- name: Ansible Vault Example
+  hosts: all
+  become: yes
+  roles:
+    - custom-role
