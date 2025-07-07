@@ -1,6 +1,6 @@
 resource "aws_key_pair" "ssh_key" {
-  key_name   = "tf-key"
-  public_key = file("~/.ssh/tfkey.pub")
+  key_name   = var.key_name
+  public_key = file(var.ssh_public_key_path)
 
   tags = {
     Name = "${var.app_name}-${var.environment}-key"
@@ -20,6 +20,13 @@ resource "aws_instance" "app_instance" {
   root_block_device {
     volume_size = 10
   }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    apt-get update
+    apt-get install -y python3 python3-pip
+    pip3 install ansible
+  EOF
 
   tags = {
     Name = "${var.app_name}-${var.environment}-instance"

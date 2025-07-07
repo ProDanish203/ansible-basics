@@ -8,6 +8,7 @@ variable "region" {
 variable "app_name" {
   description = "Name of the application"
   type        = string
+  default     = "nextjs-demo"
 }
 
 variable "environment" {
@@ -32,4 +33,16 @@ variable "instance_type" {
   description = "Type of instance to use"
   type        = string
   default     = "t2.micro"
+}
+
+variable "key_name" {
+  description = "Name of the SSH key pair"
+  type        = string
+  default     = "tf-key"
+}
+
+variable "ssh_public_key_path" {
+  description = "Path to SSH public key"
+  type        = string
+  default     = "~/.ssh/tfkey.pub"
 }
