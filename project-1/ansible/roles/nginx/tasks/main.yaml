@@ -1,0 +1,56 @@
+---
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+  become: true
+
+- name: Remove default Nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+  notify: restart nginx
+
+- name: Create Nginx configuration from template
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_config_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: restart nginx
+
+- name: Enable Nginx site
+  file:
+    src: "{{ nginx_config_path }}"
+    dest: "{{ nginx_sites_enabled }}"
+    state: link
+  become: true
+  notify: restart nginx
+
+- name: Test Nginx configuration
+  command: nginx -t
+  become: true
+  register: nginx_test
+  changed_when: false
+
+- name: Display Nginx test result
+  debug:
+    msg: "Nginx configuration test: {{ nginx_test.stdout }}"
+
+- name: Start and enable Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Check Nginx status
+  systemd:
+    name: nginx
+  register: nginx_status
+
+- name: Display Nginx status
+  debug:
+    msg: "Nginx is {{ nginx_status.status.ActiveState }}"
