@@ -31,6 +31,6 @@ resource "local_file" "ansible_inventory" {
   content = templatefile("${path.module}/inventory-template.yaml", {
     instance_ip = aws_instance.app_instance.public_ip
   })
-  filename   = "${path.module}/../ansible/inventories/hosts.yaml"  # FIXED: Go up one level then into ansible
+  filename   = "${path.module}/../ansible/inventories/hosts.yaml"
   depends_on = [aws_instance.app_instance]
 }
