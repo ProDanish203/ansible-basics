@@ -9,3 +9,17 @@ resource "local_file" "ansible_inventory" {
   filename   = "${path.module}/../ansible/inventory/hosts.yaml"
   depends_on = [aws_instance.app_instance]
 }
+
+# When there are greater number of instances
+# resource "local_file" "ansible_inventory" {
+#   content = templatefile("${path.module}/inventory-template-scalable.tpl", {
+#     # Generate arrays of IPs dynamically
+#     public_ips  = [for instance in aws_instance.app_instance : instance.public_ip]
+#     private_ips = [for instance in aws_instance.app_instance : instance.private_ip]
+
+#     # Generate instance count for loops
+#     instance_count = length(aws_instance.app_instance)
+#   })
+#   filename   = "${path.module}/../ansible/inventory/hosts.yaml"
+#   depends_on = [aws_instance.app_instance]
+# }
