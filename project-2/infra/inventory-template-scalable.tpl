@@ -8,7 +8,7 @@ all:
         server-${i}-public:
           ansible_host: ${ip}
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: ~/.ssh/tfkey
+          ansible_ssh_private_key_file: ${ssh_key_path}
 %{ endfor ~}
     
     public_servers:
@@ -17,7 +17,7 @@ all:
         server-${i}-public:
           ansible_host: ${ip}
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: ~/.ssh/tfkey
+          ansible_ssh_private_key_file: ${ssh_key_path}
 %{ endfor ~}
     
     private_servers:
@@ -26,5 +26,5 @@ all:
         server-${i}-private:
           ansible_host: ${ip}
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: ~/.ssh/tfkey
+          ansible_ssh_private_key_file: ${ssh_key_path}
 %{ endfor ~}

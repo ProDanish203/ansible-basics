@@ -62,5 +62,11 @@ variable "key_name" {
 variable "ssh_public_key_path" {
   description = "Path to SSH public key"
   type        = string
-  default     = "~/.ssh/tfkey.pub"
+  default     = "~/.ssh/mainkey.pub"
+}
+
+variable "ssh_private_key_path" {
+  description = "Path to SSH public key"
+  type        = string
+  default     = "~/.ssh/mainkey"
 }
