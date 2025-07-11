@@ -22,6 +22,15 @@ resource "aws_instance" "app_instance" {
     volume_size = 10
   }
 
+  provisioner "local-exec" {
+    command = templatefile("${path.module}/linux-ssh-config.tpl", {
+      hostname             = self.public_ip
+      user                 = "ubuntu"
+      ssh_private_key_path = var.ssh_private_key_path
+    })
+    interpreter = ["bash", "-c"]
+  }
+
   tags = {
     Name = "${var.app_name}-${var.environment}-instance-${count.index + 1}"
   }

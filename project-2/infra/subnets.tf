@@ -6,7 +6,7 @@ resource "aws_subnet" "public_subnets" {
   availability_zone       = element(var.azs, count.index)
 
   tags = {
-    Name = "${var.app_name}-${var.environment}-public-subnet=${count.index + 1}"
+    Name = "${var.app_name}-${var.environment}-public-subnet-${count.index + 1}"
   }
 }
 
