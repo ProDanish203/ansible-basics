@@ -1,0 +1,12 @@
+{
+  "ansible.python.interpreterPath": "c:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "task.allowAutomaticTasks": true,
+  "debug.openDebug": "neverOpen",
+  "terminal.integrated.inheritEnv": false,
+  "tasks": {
+    "label": "lint on open",
+    "type": "shell",
+    "command": "npm run lint",
+    "runOn": "folderOpen"
+  }
+}
