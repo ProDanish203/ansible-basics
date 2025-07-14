@@ -3,7 +3,7 @@
 terraform apply -var-file=terraform.tfvars -auto-approve
 
 # Ping the instances
-ansible public_servers -i inventory/hosts.yaml -m ping
+ansible public_servers -i inventory/hosts.yaml -m ping -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"'
 # If the controller node for ansible is in the same VPC, you can use the private_servers here as well, which is considered a better and secure approach.
 ```
 

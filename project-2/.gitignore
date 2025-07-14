@@ -4,3 +4,7 @@
 /infra/.terraform.lock.hcl
 /infra/.terraformrc
 /infra/.terraform.tfstate.lock.info
+
+# Ansible
+/ansible/.ansible
+/ansible/ansible.cfg
